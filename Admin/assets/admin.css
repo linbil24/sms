@@ -1,0 +1,344 @@
+:root {
+    --primary-blue: #1648bc;
+    --bg-light: #f7fafc;
+    --text-dark: #2d3748;
+    --text-gray: #718096;
+    --border-color: #edf2f7;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: var(--bg-light);
+    display: flex;
+    min-height: 100vh;
+}
+
+.main-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+.content-area {
+    padding: 30px;
+    flex: 1;
+}
+
+/* Table Card Container */
+.table-container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    overflow: hidden;
+    margin-top: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.table-header {
+    padding: 20px 25px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table-header h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+/* Responsive Table */
+.table-responsive {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+thead th {
+    background: #f8fafc;
+    padding: 15px 25px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+tbody td {
+    padding: 18px 25px;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: middle;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+tbody tr:hover {
+    background: #f8fafc;
+}
+
+/* Custom Styles for columns */
+.ref-code {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.student-name {
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.status-enrolled {
+    background: #e6fffa;
+    color: #38b2ac;
+}
+
+.status-pending-payment {
+    background: #fff5eb;
+    color: #ed8936;
+}
+
+.status-pending-review {
+    background: #fffae5;
+    color: #ecc94b;
+}
+
+/* Action Buttons */
+.btn-view {
+    background: var(--primary-blue);
+    color: white;
+    padding: 8px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: 0.3s;
+    display: inline-block;
+}
+
+.btn-view:hover {
+    background: #1034a6;
+    box-shadow: 0 4px 10px rgba(22, 72, 188, 0.2);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 2% auto;
+    /* Move it higher */
+    padding: 0;
+    border: none;
+    width: 80%;
+    max-width: 900px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-header {
+    padding: 20px 30px;
+    background: var(--primary-blue);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-body {
+    padding: 25px 30px;
+    max-height: 75vh;
+    /* Increased height */
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.close {
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.info-item {
+    margin-bottom: 15px;
+}
+
+.info-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-gray);
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.info-value {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.section-title {
+    grid-column: span 2;
+    padding-bottom: 10px;
+    margin-top: 20px;
+    border-bottom: 2px solid var(--border-color);
+    color: var(--primary-blue);
+    font-weight: 700;
+}
+
+/* Profile Image in Modal */
+.profile-pic-container {
+    grid-column: span 2;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.student-profile-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 4px solid white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Document & Action Buttons */
+.btn-doc-view {
+    background: #f1f5f9;
+    color: var(--primary-blue);
+    padding: 6px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #e2e8f0;
+    transition: 0.3s;
+}
+
+.btn-doc-view:hover {
+    background: #eef2ff;
+    border-color: var(--primary-blue);
+}
+
+.doc-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 10px;
+}
+
+.modal-footer {
+    padding: 20px 30px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    background: #f8fafc;
+}
+
+.btn-approve {
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-approve:hover {
+    background: #059669;
+}
+
+.btn-reject {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-reject:hover {
+    background: #dc2626;
+}
+
+.btn-edit-modal {
+    background: #1d4ed8;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-edit-modal:hover {
+    background: #1e40af;
+}

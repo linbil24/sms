@@ -1,0 +1,458 @@
+<?php
+require_once 'Security.php';
+$csrf_token = generateCsrfToken();
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN | SMS</title>
+    <link rel="icon" type="image/x-icon" href="../Assets/image/logo.png">
+    <!-- Google Fonts: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../Assets/css/log-reg.css">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* Floating logo for registration to save space and move it up */
+        .sign-up-form .logo-circle {
+            margin: 10px auto 15px;
+            width: 100px;
+            height: 100px;
+        }
+
+        .sign-up-form .logo-circle img {
+            max-width: 60px;
+        }
+
+        /* Style for the 'Already Enrolled?' button to look like the Next button */
+        .btn-already-enrolled {
+            background-color: var(--primary-blue);
+            color: #fff;
+            text-align: center;
+            line-height: 49px;
+            text-decoration: none;
+            width: 100%;
+            max-width: 180px;
+            height: 49px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        /* Password Toggle Styles */
+        .password-container {
+            position: relative;
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-container .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #1648bc !important;
+            /* Make it clearly blue */
+            cursor: pointer;
+            z-index: 999 !important;
+            font-size: 1.2rem;
+            transition: 0.3s;
+            display: block !important;
+            visibility: visible !important;
+        }
+
+        .password-container .toggle-password:hover {
+            color: #1648bc;
+        }
+
+        .password-container input {
+            width: 100%;
+            padding-right: 45px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="main-container">
+        <div class="forms-container">
+            <div class="signin-signup">
+                <!-- LOGIN FORM -->
+                <form action="process.php" method="POST" class="sign-in-form">
+                    <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+                    <h2 class="title" style="color: #1648bc; font-size: 1.8rem; font-weight: 800; line-height: 1.2;">
+                        Enrollment Management</h2>
+                    <div class="subtitle"
+                        style="color: #1034a6; font-weight: 700; font-size: 1.15rem; margin-top: 10px;">Log in to your
+                        account</div>
+
+                    <?php if (isset($_GET['error'])): ?>
+                        <div
+                            style="color: #ef4444; background: #fee2e2; padding: 10px; border-radius: 6px; margin-top: 15px; font-size: 0.85rem; text-align: center; font-weight: 600;">
+                            <?php
+                            if ($_GET['error'] == 'user_not_found')
+                                echo "User account not found.";
+                            elseif ($_GET['error'] == 'invalid_password')
+                                echo "Incorrect password.";
+                            elseif ($_GET['error'] == 'empty_fields')
+                                echo "Please fill in all fields.";
+                            elseif ($_GET['error'] == 'unauthorized')
+                                echo "You don't have permission to access the dashboard.";
+                            elseif ($_GET['error'] == 'system_error')
+                                echo "An error occurred: " . htmlspecialchars($_GET['msg'] ?? 'Please try again.');
+                            else
+                                echo "An error occurred. Please try again.";
+                            ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <div class="input-group" style="margin-top: 30px;">
+                        <label for="email">Email <span>*</span></label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="password">Password <span>*</span></label>
+                        <div class="password-container">
+                            <input type="password" id="password" name="password" required>
+                            <i class="fas fa-eye toggle-password"></i>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn login-btn"
+                        style="max-width: 100%; border-radius: 4px; font-weight: 700; height: 50px;">Log In</button>
+
+                    <a href="forgot_password.php" class="forgot-password"
+                        style="margin-top: 20px; color: #3b82f6;">Forgot Password?</a>
+
+                    <div style="margin-top: 30px; font-size: 0.9rem; color: #4b5563;">
+                        New Student? <a href="#" id="sign-up-link-trigger"
+                            style="color: var(--primary-blue); font-weight: 700; text-decoration: none;">Register
+                            Here</a>
+                    </div>
+                </form>
+
+                <!-- REGISTRATION FORM (Multi-Step Wizard) -->
+                <form action="process.php" method="POST" class="sign-up-form" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
+                    <div class="logo-circle">
+                        <img src="../Assets/image/logo.png" alt="Logo">
+                    </div>
+                    <h2 class="title" style="margin-bottom: 5px;">Student Registration</h2>
+
+                    <!-- Form Content with Scroll for large registration steps -->
+                    <div class="register-container-scroll">
+                        <!-- Progress Bar (Visible at Top) -->
+                        <div class="progressbar">
+                            <div class="progress" id="progress"></div>
+                            <div class="progress-step progress-step-active" data-title="Enrollment"></div>
+                            <div class="progress-step" data-title="Info"></div>
+                            <div class="progress-step" data-title="Docs"></div>
+                            <div class="progress-step" data-title="Guardian"></div>
+                            <div class="progress-step" data-title="Education"></div>
+                        </div>
+
+                        <!-- Step 1: Enrollment Information -->
+                        <div class="form-step form-step-active">
+                            <h3 style="margin-bottom: 15px; color: var(--primary-blue);">Enrollment Information</h3>
+                            <div class="row">
+                                <div class="col input-group">
+                                    <label>Admission Type <span>*</span></label>
+                                    <select name="admission_type" required>
+                                        <option value="Freshman">Freshman</option>
+                                        <option value="Transferee">Transferee</option>
+                                    </select>
+                                </div>
+                                <div class="col input-group">
+                                    <label>Course <span>*</span></label>
+                                    <select name="course" required>
+                                        <option value="">Select...</option>
+                                        <option value="BSIT">BS Information Technology</option>
+                                        <option value="BSCS">BS Computer Science</option>
+                                        <option value="BSBA">BS Business Administration</option>
+                                    </select>
+                                </div>
+                                <div class="col input-group">
+                                    <label>Year Level <span>*</span></label>
+                                    <select name="year_level" required>
+                                        <option value="First Year">First Year</option>
+                                        <option value="Second Year">Second Year</option>
+                                        <option value="Third Year">Third Year</option>
+                                        <option value="Fourth Year">Fourth Year</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <h4 style="margin: 15px 0 10px; color: var(--primary-blue); font-size: 0.9rem;">Primary
+                                Documents</h4>
+                            <div class="row">
+                                <div class="col input-group">
+                                    <label>Birth Certificate (PSA)</label>
+                                    <input type="file" name="birth_cert">
+                                </div>
+                                <div class="col input-group">
+                                    <label>Form 138 (Report Card)</label>
+                                    <input type="file" name="form_138">
+                                </div>
+                                <div class="col input-group">
+                                    <label>Passport Size ID Picture <span>*</span></label>
+                                    <input type="file" name="id_picture" required>
+                                    <small>(White Background, Formal Attire)</small>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top: 10px;">
+                                <div class="col input-group">
+                                    <label style="color: var(--primary-blue); font-weight: 600;">Secondary Documents
+                                        Requirements? <span>*</span></label>
+                                    <div style="display: flex; gap: 20px; margin-top: 5px;">
+                                        <label
+                                            style="font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                            <input type="radio" name="has_secondary_docs" value="yes" checked
+                                                style="width: auto;"> Meron
+                                        </label>
+                                        <label
+                                            style="font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                                            <input type="radio" name="has_secondary_docs" value="no"
+                                                style="width: auto;"> Wala
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="btns-group">
+                                <a href="../Student/auth/login.php" class="btn-already-enrolled">Already Enrolled?</a>
+                                <a href="#" class="btn btn-next">Next</a>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Student Information -->
+                        <div class="form-step">
+                            <h3 style="margin-bottom: 15px; color: var(--primary-blue);">Student Information</h3>
+                            <div class="row">
+                                <div class="col input-group">
+                                    <label>First Name <span>*</span></label>
+                                    <input type="text" name="first_name" placeholder="John" required>
+                                </div>
+                                <div class="col input-group">
+                                    <label>Middle Name</label>
+                                    <input type="text" name="middle_name" placeholder="Quincy">
+                                </div>
+                                <div class="col input-group">
+                                    <label>Last Name <span>*</span></label>
+                                    <input type="text" name="last_name" placeholder="Doe" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col input-group">
+                                    <label>Gender <span>*</span></label>
+                                    <select name="gender" required>
+                                        <option value="">Select...</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </div>
+                                <div class="col input-group">
+                                    <label>Birthdate <span>*</span></label>
+                                    <input type="date" name="birthdate" value="2010-01-10" required>
+                                </div>
+                                <div class="col input-group">
+                                    <label>Contact Number <span>*</span></label>
+                                    <input type="text" name="contact_number" placeholder="09123456789" required
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col input-group">
+                                    <label>Email <span>*</span></label>
+                                    <input type="email" name="reg_email" placeholder="example@email.com" required>
+                                </div>
+                                <div class="col input-group">
+                                    <label>Password <span>*</span></label>
+                                    <div class="password-container">
+                                        <input type="password" name="reg_password" placeholder="********" required>
+                                        <i class="fas fa-eye toggle-password"></i>
+                                    </div>
+                                </div>
+                                <div class="col input-group">
+                                    <label>Confirm Password <span>*</span></label>
+                                    <div class="password-container">
+                                        <input type="password" name="confirm_password" placeholder="********" required>
+                                        <i class="fas fa-eye toggle-password"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label>Address <span>*</span></label>
+                                <input type="text" name="address" placeholder="123 Street, City, Province" required>
+                            </div>
+
+                            <div class="btns-group">
+                                <a href="#" class="btn btn-prev">Previous</a>
+                                <a href="#" class="btn btn-next">Next</a>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Secondary Documents -->
+                        <div class="form-step">
+                            <h3 style="margin-bottom: 15px; color: var(--primary-blue);">Secondary Documents</h3>
+                            <div class="row">
+                                <div class="col input-group">
+                                    <label>Form 137</label>
+                                    <input type="file" name="form_137">
+                                </div>
+                                <div class="col input-group">
+                                    <label>Certificate of Good Moral</label>
+                                    <input type="file" name="good_moral">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col input-group">
+                                    <label>Barangay Clearance</label>
+                                    <input type="file" name="barangay_clearance">
+                                </div>
+                                <div class="col"></div> <!-- Empty for spacing -->
+                            </div>
+
+                            <div class="btns-group">
+                                <a href="#" class="btn btn-prev">Previous</a>
+                                <a href="#" class="btn btn-next">Next</a>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Parent/Guardian Information -->
+                        <div class="form-step">
+                            <h3 style="margin-bottom: 15px; color: var(--primary-blue);">Parent/Guardian Information
+                            </h3>
+                            <div class="row">
+                                <div class="col input-group">
+                                    <label>Guardian First Name <span>*</span></label>
+                                    <input type="text" name="guardian_first" required>
+                                </div>
+                                <div class="col input-group">
+                                    <label>Guardian Middle Name</label>
+                                    <input type="text" name="guardian_middle">
+                                </div>
+                                <div class="col input-group">
+                                    <label>Guardian Last Name <span>*</span></label>
+                                    <input type="text" name="guardian_last" required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col input-group">
+                                    <label>Guardian Email <span>*</span></label>
+                                    <input type="email" name="guardian_email" required>
+                                </div>
+                                <div class="col input-group">
+                                    <label>Guardian Contact Number <span>*</span></label>
+                                    <input type="text" name="guardian_contact" required
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                </div>
+                                <div class="col input-group">
+                                    <label>Relationship to Student <span>*</span></label>
+                                    <input type="text" name="relationship" required>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label>Address <span>*</span></label>
+                                <input type="text" name="guardian_address" required>
+                            </div>
+
+                            <div class="btns-group">
+                                <a href="#" class="btn btn-prev">Previous</a>
+                                <a href="#" class="btn btn-next">Next</a>
+                            </div>
+                        </div>
+
+                        <!-- Step 5: Educational Background -->
+                        <div class="form-step">
+                            <h3 style="margin-bottom: 15px; color: var(--primary-blue);">Educational Background</h3>
+                            <div class="row">
+                                <div class="col input-group">
+                                    <label>Primary School <span>*</span></label>
+                                    <input type="text" name="primary_school" required>
+                                </div>
+                                <div class="col input-group">
+                                    <label>Year Graduated <span>*</span></label>
+                                    <input type="text" name="primary_year" placeholder="20XX" required
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col input-group">
+                                    <label>Secondary School <span>*</span></label>
+                                    <input type="text" name="secondary_school" required>
+                                </div>
+                                <div class="col input-group">
+                                    <label>Year Graduated <span>*</span></label>
+                                    <input type="text" name="secondary_year" placeholder="20XX" required
+                                        oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                                </div>
+                            </div>
+
+                            <div class="btns-group">
+                                <a href="#" class="btn btn-prev">Previous</a>
+                                <button type="submit" class="btn">Submit</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- Back to Login Text Link -->
+                    <div style="margin-top: 10px; text-align: center;">
+                        <a href="#" id="sign-in-link-trigger"
+                            style="color: var(--primary-blue); font-size: 0.9rem; text-decoration: none; font-weight: 600;">Back
+                            to Login</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- PANELS (The Sliding Interface) -->
+        <div class="panels-container">
+            <!-- Left Panel (Visible when showing Login) -->
+            <div class="panel left-panel">
+                <div class="content">
+                    <div class="logo-circle">
+                        <img src="../Assets/image/logo.png" alt="Logo">
+                    </div>
+                    <h1 style="font-size: 2.2rem; text-align: center; color: var(--primary-blue); font-weight: 800;">
+                        Welcome to<br>SMS
+                    </h1>
+                    <p style="margin-top: 20px;">
+                        Empowering education through a unified academic management system that enhances
+                        learning, streamlines processes, and connects the academic community.
+                    </p>
+
+                    <!-- Small instruction text -->
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <script src="../Assets/javascript/log-reg.js"></script>
+    <script>
+        document.querySelectorAll('.toggle-password').forEach(icon => {
+            icon.addEventListener('click', function () {
+                const input = this.parentElement.querySelector('input');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    this.classList.remove('fa-eye');
+                    this.classList.add('fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    this.classList.remove('fa-eye-slash');
+                    this.classList.add('fa-eye');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
