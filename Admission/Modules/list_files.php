@@ -1,6 +1,6 @@
 <?php
 // Scan Modules directory to see real files
-$dir = 'c:\xampp\htdocs\sms\Adminssion\Modules';
+$dir = 'c:\xampp\htdocs\sms\Admission\Modules';
 $files = scandir($dir);
 echo "<h3>Actual Files in Modules:</h3><ul>";
 foreach ($files as $file) {

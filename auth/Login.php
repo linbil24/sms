@@ -82,7 +82,7 @@ $csrf_token = generateCsrfToken();
         <div class="forms-container">
             <div class="signin-signup">
                 <!-- LOGIN FORM -->
-                <form action="process.php" method="POST" class="sign-in-form">
+                <form action="auth_process.php" method="POST" class="sign-in-form">
                     <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
                     <h2 class="title" style="color: #1648bc; font-size: 1.8rem; font-weight: 800; line-height: 1.2;">
                         Enrollment Management</h2>
@@ -137,7 +137,7 @@ $csrf_token = generateCsrfToken();
                 </form>
 
                 <!-- REGISTRATION FORM (Multi-Step Wizard) -->
-                <form action="process.php" method="POST" class="sign-up-form" enctype="multipart/form-data">
+                <form action="auth_process.php" method="POST" class="sign-up-form" enctype="multipart/form-data">
                     <input type="hidden" name="csrf_token" value="<?php echo $csrf_token; ?>">
                     <div class="logo-circle">
                         <img src="../Assets/image/logo.png" alt="Logo">

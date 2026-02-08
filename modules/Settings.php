@@ -22,8 +22,7 @@ switch ($role) {
         $css_path = '../Super-admin/assets/admin.css';
         break;
     case 'admission':
-    case 'adminssion':
-        $sidebar_path = '../Adminssion/Components/Sidebar.php';
+        $sidebar_path = '../Admission/Components/Sidebar.php';
         $css_path = '../Admin/assets/admin.css';
         break;
     case 'cashier':

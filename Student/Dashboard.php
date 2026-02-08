@@ -360,7 +360,7 @@ if ($current_day !== 'Sunday') {
         <div class="content-area">
 
 
-        </div>
+
 
         <div class="dashboard-grid">
             <!-- Schedule -->
@@ -482,7 +482,7 @@ if ($current_day !== 'Sunday') {
         </div>
 
     </div>
-    </div>
+
     <!-- Schedule Modal -->
     <div id="scheduleModal" class="modal-overlay">
         <div class="modal-content">

@@ -23,8 +23,7 @@ switch ($role) {
         $css_path = '../Super-admin/assets/admin.css'; // Assuming similar CSS structure
         break;
     case 'admission':
-    case 'adminssion': // Covering potential typo in DB
-        $sidebar_path = '../Adminssion/Components/Sidebar.php';
+        $sidebar_path = '../Admission/Components/Sidebar.php';
         $css_path = '../Admin/assets/admin.css';
         break;
     case 'cashier':

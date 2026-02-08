@@ -186,9 +186,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
                 try {
-                     $student_stmt = $pdo->prepare("INSERT INTO students (student_id, first_name, last_name, email, password, course, year_level, status, profile_image) 
-                                              VALUES (?, ?, ?, ?, ?, ?, ?, 'Regular', ?)");
-                     $student_stmt->execute([$student_id, $first_name, $last_name, $email, $hashed_password, $full_course_name, $year_level, $profile_image_path]);
+                     $student_stmt = $pdo->prepare("INSERT INTO students (student_id, first_name, middle_name, last_name, email, password, course, year_level, status, profile_image) 
+                                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Regular', ?)");
+                     $student_stmt->execute([$student_id, $first_name, $middle_name, $last_name, $email, $hashed_password, $full_course_name, $year_level, $profile_image_path]);
                 } catch (PDOException $e) {
                      throw new Exception("ERROR IN STUDENTS TABLE INSERT: " . $e->getMessage());
                 }
@@ -197,14 +197,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 try {
                      $enroll_stmt = $pdo->prepare("INSERT INTO enrollments (
                         reference_code, admission_type, course_id, year_level, 
-                        first_name, last_name, gender, birthdate, contact_number, email, address,
+                        first_name, middle_name, last_name, gender, birthdate, contact_number, email, address,
                         id_picture, guardian_first, guardian_middle, guardian_last, guardian_email, guardian_contact, relationship, guardian_address,
                         primary_school, primary_year, secondary_school, secondary_year
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                     
                     $enroll_stmt->execute([
                         $reference_code, $admission_type, $course_id, $year_level, 
-                        $first_name, $last_name, $gender, $birthdate, $contact_number, $email, $address,
+                        $first_name, $middle_name, $last_name, $gender, $birthdate, $contact_number, $email, $address,
                         $profile_image_path, $guardian_first, $guardian_middle, $guardian_last, $guardian_email, $guardian_contact, $relationship, $guardian_address,
                         $primary_school, $primary_year, $secondary_school, $secondary_year
                     ]);
@@ -224,15 +224,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } catch (Exception $e) {
                 $pdo->rollBack();
                 // Direct Debug Output
-                echo "<div style='background:white; color:red; padding:20px; font-family:monospace;'>";
-                echo "<h1>REGISTRATION ERROR (Inner Catch)</h1>";
-                echo "<h3>" . htmlspecialchars($e->getMessage()) . "</h3>";
-                echo "<p>File: " . $e->getFile() . " Line: " . $e->getLine() . "</p>";
-                echo "<hr><strong>DEBUG INFO:</strong><br>";
-                echo "Student ID: $student_id<br>";
-                echo "Middle Name Value: '$middle_name'<br>";
-                echo "Fields being inserted: student_id, first_name, middle_name, last_name, email...";
-                echo "</div>";
+                header("Location: Login.php?error=system_error&msg=" . urlencode($e->getMessage()));
                 exit();
             }
 
@@ -290,7 +282,7 @@ function process_login($email, $password, $pdo)
                 $redirects = [
                     'admin' => '../Admin/Dashboard.php',
                     'superadmin' => '../Super-admin/Dashboard.php',
-                    'admission' => '../Adminssion/Dashboard.php',
+                    'admission' => '../Admission/Dashboard.php',
                     'cashier' => '../Cashier/Dashboard.php',
                     'student' => '../Student/Dashboard.php'
                 ];

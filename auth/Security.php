@@ -42,7 +42,7 @@ function checkRole($allowed_roles) {
                 header("Location: /sms/Admin/Dashboard.php");
                 break;
             case 'admission':
-                header("Location: /sms/Adminssion/Dashboard.php");
+                header("Location: /sms/Admission/Dashboard.php");
                 break;
             case 'cashier':
                 header("Location: /sms/Cashier/Dashboard.php");

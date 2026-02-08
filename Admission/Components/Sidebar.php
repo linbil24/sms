@@ -6,7 +6,7 @@ $email = isset($_SESSION['email']) ? $_SESSION['email'] : 'admission@sms.com';
 ?>
 <div class="sidebar">
     <div class="sidebar-brand">
-        <a href="/sms/Adminssion/Dashboard.php" class="brand-wrapper">
+        <a href="/sms/Admission/Dashboard.php" class="brand-wrapper">
             <img src="/sms/Assets/image/logo.png" alt="Logo" class="sidebar-logo">
             <h2>Admission</h2>
         </a>
@@ -23,9 +23,9 @@ $email = isset($_SESSION['email']) ? $_SESSION['email'] : 'admission@sms.com';
                     <i class="fas fa-chevron-right arrow-icon"></i>
                 </a>
                 <ul class="sub-menu">
-                    <li><a href="/sms/Adminssion/Dashboard.php?view=summary">Application Summary</a></li>
-                    <li><a href="/sms/Adminssion/Dashboard.php?view=pending">Pending Evaluation</a></li>
-                    <li><a href="/sms/Adminssion/Dashboard.php?view=notifications">Notifications</a></li>
+                    <li><a href="/sms/Admission/Dashboard.php?view=summary">Application Summary</a></li>
+                    <li><a href="/sms/Admission/Dashboard.php?view=pending">Pending Evaluation</a></li>
+                    <li><a href="/sms/Admission/Dashboard.php?view=notifications">Notifications</a></li>
                 </ul>
             </li>
         </ul>
@@ -41,11 +41,11 @@ $email = isset($_SESSION['email']) ? $_SESSION['email'] : 'admission@sms.com';
                     <i class="fas fa-chevron-right arrow-icon"></i>
                 </a>
                 <ul class="sub-menu">
-                    <li><a href="/sms/Adminssion/Modules/New-Applications.php">New Applications</a></li>
-                    <li><a href="/sms/Adminssion/Modules/For-Evaluation.php">For Evaluation</a></li>
-                    <li><a href="/sms/Adminssion/Modules/Approved.php">Approved</a></li>
-                    <li><a href="/sms/Adminssion/Modules/Rejected.php">Rejected</a></li>
-                    <li><a href="/sms/Adminssion/Modules/Archived.php">Archived</a></li>
+                    <li><a href="/sms/Admission/Modules/New-Applications.php">New Applications</a></li>
+                    <li><a href="/sms/Admission/Modules/For-Evaluation.php">For Evaluation</a></li>
+                    <li><a href="/sms/Admission/Modules/Approved.php">Approved</a></li>
+                    <li><a href="/sms/Admission/Modules/Rejected.php">Rejected</a></li>
+                    <li><a href="/sms/Admission/Modules/Archived.php">Archived</a></li>
                 </ul>
             </li>
 
@@ -57,10 +57,10 @@ $email = isset($_SESSION['email']) ? $_SESSION['email'] : 'admission@sms.com';
                     <i class="fas fa-chevron-right arrow-icon"></i>
                 </a>
                 <ul class="sub-menu">
-                    <li><a href="/sms/Adminssion/Modules/Document-Review.php">Document Review</a></li>
-                    <li><a href="/sms/Adminssion/Modules/Exam-Results.php">Entrance Exam Results</a></li>
-                    <li><a href="/sms/Adminssion/Modules/Interview-Assessment.php">Interview Assessment</a></li>
-                    <li><a href="/sms/Adminssion/Modules/Evaluation-Summary.php">Evaluation Summary</a></li>
+                    <li><a href="/sms/Admission/Modules/Document-Review.php">Document Review</a></li>
+                    <li><a href="/sms/Admission/Modules/Exam-Results.php">Entrance Exam Results</a></li>
+                    <li><a href="/sms/Admission/Modules/Interview-Assessment.php">Interview Assessment</a></li>
+                    <li><a href="/sms/Admission/Modules/Evaluation-Summary.php">Evaluation Summary</a></li>
                 </ul>
             </li>
 
@@ -72,10 +72,10 @@ $email = isset($_SESSION['email']) ? $_SESSION['email'] : 'admission@sms.com';
                     <i class="fas fa-chevron-right arrow-icon"></i>
                 </a>
                 <ul class="sub-menu">
-                    <li><a href="/sms/Adminssion/Modules/Generate-ID.php">Generate Student ID</a></li>
-                    <li><a href="/sms/Adminssion/Modules/ID-Verification.php">ID Verification</a></li>
-                    <li><a href="/sms/Adminssion/Modules/Print-Export-ID.php">Print / Export ID</a></li>
-                    <li><a href="/sms/Adminssion/Modules/Lost-Replacement-IDs.php">Lost / Replacement IDs</a></li>
+                    <li><a href="/sms/Admission/Modules/Generate-ID.php">Generate Student ID</a></li>
+                    <li><a href="/sms/Admission/Modules/ID-Verification.php">ID Verification</a></li>
+                    <li><a href="/sms/Admission/Modules/Print-Export-ID.php">Print / Export ID</a></li>
+                    <li><a href="/sms/Admission/Modules/Lost-Replacement-IDs.php">Lost / Replacement IDs</a></li>
                 </ul>
             </li>
         </ul>
@@ -91,9 +91,9 @@ $email = isset($_SESSION['email']) ? $_SESSION['email'] : 'admission@sms.com';
                     <i class="fas fa-chevron-right arrow-icon"></i>
                 </a>
                 <ul class="sub-menu">
-                    <li><a href="/sms/Adminssion/Modules/Requirement-List.php">Requirement List</a></li>
-                    <li><a href="/sms/Adminssion/Modules/Submission-Status.php">Submission Status</a></li>
-                    <li><a href="/sms/Adminssion/Modules/Validation-Rules.php">Validation Rules</a></li>
+                    <li><a href="/sms/Admission/Modules/Requirement-List.php">Requirement List</a></li>
+                    <li><a href="/sms/Admission/Modules/Submission-Status.php">Submission Status</a></li>
+                    <li><a href="/sms/Admission/Modules/Validation-Rules.php">Validation Rules</a></li>
                 </ul>
             </li>
 
@@ -105,9 +105,9 @@ $email = isset($_SESSION['email']) ? $_SESSION['email'] : 'admission@sms.com';
                     <i class="fas fa-chevron-right arrow-icon"></i>
                 </a>
                 <ul class="sub-menu">
-                    <li><a href="/sms/Adminssion/Modules/Passers-List.php">Passers List</a></li>
-                    <li><a href="/sms/Adminssion/Modules/Waitlisted.php">Waitlisted</a></li>
-                    <li><a href="/sms/Adminssion/Modules/Result-Notifications.php">Notifications</a></li>
+                    <li><a href="/sms/Admission/Modules/Passers-List.php">Passers List</a></li>
+                    <li><a href="/sms/Admission/Modules/Waitlisted.php">Waitlisted</a></li>
+                    <li><a href="/sms/Admission/Modules/Result-Notifications.php">Notifications</a></li>
                 </ul>
             </li>
         </ul>
@@ -122,9 +122,9 @@ $email = isset($_SESSION['email']) ? $_SESSION['email'] : 'admission@sms.com';
                     <i class="fas fa-chevron-right arrow-icon"></i>
                 </a>
                 <ul class="sub-menu">
-                    <li><a href="/sms/Adminssion/Modules/Applications-Summary.php">Applications Summary</a></li>
-                    <li><a href="/sms/Adminssion/Modules/Evaluation-Statistics.php">Evaluation Statistics</a></li>
-                    <li><a href="/sms/Adminssion/Modules/ID-Reports.php">Student ID Reports</a></li>
+                    <li><a href="/sms/Admission/Modules/Applications-Summary.php">Applications Summary</a></li>
+                    <li><a href="/sms/Admission/Modules/Evaluation-Statistics.php">Evaluation Statistics</a></li>
+                    <li><a href="/sms/Admission/Modules/ID-Reports.php">Student ID Reports</a></li>
                 </ul>
             </li>
         </ul>
@@ -139,9 +139,9 @@ $email = isset($_SESSION['email']) ? $_SESSION['email'] : 'admission@sms.com';
                     <i class="fas fa-chevron-right arrow-icon"></i>
                 </a>
                 <ul class="sub-menu">
-                    <li><a href="/sms/Adminssion/Modules/Admission-Year.php">Admission Year</a></li>
-                    <li><a href="/sms/Adminssion/Modules/Cut-off-Score.php">Cut-off Score</a></li>
-                    <li><a href="/sms/Adminssion/Modules/Notification-Templates.php">Notification Templates</a></li>
+                    <li><a href="/sms/Admission/Modules/Admission-Year.php">Admission Year</a></li>
+                    <li><a href="/sms/Admission/Modules/Cut-off-Score.php">Cut-off Score</a></li>
+                    <li><a href="/sms/Admission/Modules/Notification-Templates.php">Notification Templates</a></li>
                 </ul>
             </li>
             <li class="<?php echo ($current_page == 'Profile.php') ? 'active' : ''; ?>">
